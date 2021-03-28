@@ -6,7 +6,6 @@ use App\Repository\FournisseurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=FournisseurRepository::class)
@@ -21,11 +20,7 @@ class Fournisseur
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=20)
-     * @UniqueEntity(
-     *     fields={"code_clt"},
-     *     message="Le code fournisseur est déjà utilisé."
-     * )
+     * @ORM\Column(type="string", length=20, unique=true)
      */
     private $code_four;
 
