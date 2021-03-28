@@ -6,6 +6,7 @@ use App\Repository\JouetRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=JouetRepository::class)
@@ -21,6 +22,10 @@ class Jouet
 
     /**
      * @ORM\Column(type="string", length=20)
+     * @UniqueEntity(
+     *     fields={"code_clt"},
+     *     message="Le code Jouet est déjà utilisé."
+     * )
      */
     private $code_jouet;
 

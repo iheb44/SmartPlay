@@ -6,6 +6,7 @@ use App\Repository\ClientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ClientRepository::class)
@@ -20,8 +21,11 @@ class Client
     private $id;
 
     /**
-     * @orm\Id
      * @ORM\Column(type="string", length=20)
+     *  @UniqueEntity(
+     *     fields={"code_clt"},
+     *     message="Le code client est déjà utilisé."
+     * )
      */
     private $code_clt;
 

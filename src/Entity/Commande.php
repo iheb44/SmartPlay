@@ -6,6 +6,7 @@ use App\Repository\CommandeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=CommandeRepository::class)
@@ -21,6 +22,10 @@ class Commande
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @UniqueEntity(
+     *     fields={"num_cde"},
+     *     message="Numero Commande est déjà utilisé."
+     * )
      */
     private $num_cde;
 
