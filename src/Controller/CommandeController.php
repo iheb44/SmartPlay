@@ -50,7 +50,10 @@ class CommandeController extends AbstractController
         $builder->handleRequest($request);
 
         if($builder->isSubmitted() && $builder->isValid()) {
+            $date = new \DateTime();
             $cmd = $builder->getData();
+            $cmd->setDateCde($date->format('d-m-Y'));
+            $cmd->setHeureCde($date->format('H:i:s'));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($cmd);
             $entityManager->flush();

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CommandeRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -25,12 +26,12 @@ class Commande
     private $num_cde;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $date_cde;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $heure_cde;
 
@@ -77,24 +78,24 @@ class Commande
         return $this;
     }
 
-    public function getDateCde(): ?\DateTimeInterface
+    public function getDateCde()
     {
         return $this->date_cde;
     }
 
-    public function setDateCde(\DateTimeInterface $date_cde): self
+    public function setDateCde($date_cde): self
     {
         $this->date_cde = $date_cde;
 
         return $this;
     }
 
-    public function getHeureCde(): ?\DateTimeInterface
+    public function getHeureCde()
     {
         return $this->heure_cde;
     }
 
-    public function setHeureCde(\DateTimeInterface $heure_cde): self
+    public function setHeureCde($heure_cde): self
     {
         $this->heure_cde = $heure_cde;
 
