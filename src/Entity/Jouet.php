@@ -25,7 +25,7 @@ class Jouet
     private $code_jouet;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $des_jouet;
 

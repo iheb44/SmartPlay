@@ -6,6 +6,7 @@ use App\Entity\Jouet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
  * @method Jouet|null find($id, $lockMode = null, $lockVersion = null)
  * @method Jouet|null findOneBy(array $criteria, array $orderBy = null)
@@ -18,6 +19,7 @@ class JouetRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Jouet::class);
     }
+
 
     // /**
     //  * @return Jouet[] Returns an array of Jouet objects
@@ -47,4 +49,25 @@ class JouetRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function maxtoys(){
+        $qb = $this->createQueryBuilder('j');
+
+        return $this
+            ->createQueryBuilder('j')
+            ->select('f.des_four,MAX(SUM(j.qte_stock_jouet))')
+            ->join('j.code_four_jouet','f');
+
+
+
+    }
+    function minPrix(){
+        $qb = $this ->createQueryBuilder('j');
+        return $this
+            ->createQueryBuilder('j')
+            ->select('MIN(j.PU_jouet')
+            ->from('$j.jouet');
+    }
+    public function show(){
+
+    }
 }

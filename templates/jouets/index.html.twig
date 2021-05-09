@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}jouet!{% endblock %}
+
+{% block body %}
+    <a href="{{ path('new_jouet')}}" class="btn btn-primary" style="float:left"> ajouter</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">code_four_jouet_id</th>
+            <th scope="col">code_jouet</th>
+            <th scope="col">des_jouet</th>
+            <th scope="col">qte_stock</th>
+            <th scope="col">pu_jouet</th>
+            <th scope="col">modifier</th>
+            <th scope="col">supp</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for jouet in jouets %}
+        <tr>
+            <td>{{ jouet.id }}</td>
+            <td>{{ jouet.getCodeJouet() }}</td>
+            <td>{{ jouet.getCodeFourJouet().id }}</td>
+            <td>{{ jouet.getDesJouet() }}</td>
+            <td>{{ jouet.getQteStockJouet() }}</td>
+            <td>{{ jouet.getPUJouet() }}</td>
+            <td> <a href="{{ path('edit_jouet',{"id":jouet.id}) }}" class="btn btn-primary"> modifier</a> </td>
+            <td> <a href="{{ path('delete_jouet',{"id":jouet.id}) }}" class="btn btn-danger" onclick="return confirm('vous voulez supprimer cette jouet')"> delete</a> </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -25,22 +25,22 @@ class Fournisseur
     private $code_four;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $des_four;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50,nullable=true)
      */
     private $adr_four;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50,nullable=true)
      */
     private $contact_four;
 
     /**
-     * @ORM\Column(type="string", length=8)
+     * @ORM\Column(type="string", length=8,nullable=true)
      */
     private $tel_four;
 

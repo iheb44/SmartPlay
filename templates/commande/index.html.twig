@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}jouet!{% endblock %}
+
+{% block body %}
+    <a href="{{ path('new_cmd')}}" class="btn btn-primary" style="float:left"> ajouter</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">id</th>
+            <th scope="col">numCde</th>
+            <th scope="col">DateCde</th>
+            <th scope="col">HeureCde</th>
+            <th scope="col">RemiseCde</th>
+            <th scope="col">MntCde</th>
+            <th scope="col">CodeCltCde</th>
+            <th scope="col">modifier</th>
+            <th scope="col">supp</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for cmd in cmds %}
+            <tr>
+                <td>{{ cmd.id }}</td>
+                <td>{{ cmd.getNumCde() }}</td>
+                <td>{{ cmd.getDateCde()|date("d/m/Y") }}</td>
+                <td>{{ cmd.getHeureCde()|date('H:i:s') }}</td>
+                <td>{{ cmd.getRemiseCde() }}</td>
+                <td>{{ cmd.getMntCde() }}</td>
+                <td>{{ cmd.getCodeCltCde().id }}</td>
+                <td> <a href="{{ path('edit_cmd',{'id':cmd.id}) }}" class="btn btn-primary"> modifier</a> </td>
+                <td> <a href="{{ path('delete_commande',{'id':cmd.id}) }}" class="btn btn-danger" onclick="return confirm('vous voulez supprimer cette command')"> delete</a> </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
