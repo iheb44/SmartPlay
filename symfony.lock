@@ -263,6 +263,9 @@
     "symfony/property-access": {
         "version": "v4.4.20"
     },
+    "symfony/process": {
+        "version": "v4.4.20"
+    },
     "symfony/proxy-manager-bridge": {
         "version": "v4.4.20"
     },

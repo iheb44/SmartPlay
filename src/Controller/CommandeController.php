@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Commande;
+use App\Entity\Jouet;
+use App\Entity\LigneCde;
 use App\Form\Type\cmdType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,8 +46,9 @@ class CommandeController extends AbstractController
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function ajouter_cmd(Request $request){
+    public function ajouter_cmd(Request $request, EntityManagerInterface $entityManager){
         $cmd = new Commande();
+        $ligne_cmd = new LigneCde();
         $builder = $this->createForm(cmdType::class,$cmd);
 
         $builder->handleRequest($request);
@@ -53,10 +56,20 @@ class CommandeController extends AbstractController
         if($builder->isSubmitted() && $builder->isValid()) {
             $date = new \DateTime();
             $cmd = $builder->getData();
+            //dd($cmd);
+
+            $ligne_cmdFrom = $builder->get("ligneCdes")->getData();
+            $qte_ligne_cmdFrom = $builder->get("QteLigne")->getData();
+            $remiseLigneFrom = $builder->get("remiseLigne")->getData();
+
             $cmd->setDateCde($date->format('d-m-Y'));
             $cmd->setHeureCde($date->format('H:i:s'));
-            $entityManager = $this->getDoctrine()->getManager();
+            $ligne_cmd->setNumCdeLigne($cmd);
+            $ligne_cmd->setCodeJoueLigne($ligne_cmdFrom);
+            $ligne_cmd->setQteLigne($qte_ligne_cmdFrom);
+            $ligne_cmd->setRemiseLigne($remiseLigneFrom);
             $entityManager->persist($cmd);
+            $entityManager->persist($ligne_cmd);
             $entityManager->flush();
 
             return $this->redirectToRoute('commande');
@@ -70,7 +83,7 @@ class CommandeController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function edit(Request $request, $id) {
-        $cmd = new Commande();
+        //$cmd = new Commande();
         $cmd = $this->getDoctrine()->getRepository(Commande::class)->find($id);
 
         $form = $this->createForm(cmdType::class,$cmd);

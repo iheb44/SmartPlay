@@ -5,14 +5,19 @@ namespace App\Form\Type;
 
 
 use App\Entity\Client;
+use App\Entity\Commande;
+use App\Entity\Jouet;
+use App\Entity\LigneCde;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class cmdType extends AbstractType
 {
@@ -41,6 +46,25 @@ class cmdType extends AbstractType
             ->add('MntCde', TextType::class
                 ,array('attr' => array('class' => 'form-control'))
             )
+
+            /********Not MApped******/
+            ->add('ligneCdes', EntityType::class, [
+                'label' => 'Jouet',
+                'class'       => Jouet::class,
+                'placeholder' => 'Sélectionnez Un jouet',
+                'mapped'      => false,
+                'required'    => true
+            ])
+            ->add('QteLigne', TextType::class,[
+                'label' => 'qte',
+                'mapped'      => false,
+                'required'    => true
+            ])
+            ->add('remiseLigne', NumberType::class,[
+                'label' => 'Remise',
+                'mapped'      => false,
+                'required'    => true
+            ])
             ->add('save', SubmitType::class, array(
                     'label' => 'Créer',
                 'attr' => array('class' => 'btn btn-primary'))
