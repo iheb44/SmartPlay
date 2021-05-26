@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Commande;
 use App\Form\Type\cmdType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -77,7 +78,10 @@ class CommandeController extends AbstractController
 
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()) {
-
+            $date = new \DateTime();
+            $cmd = $form->getData();
+            $cmd->setDateCde($date->format('d-m-Y'));
+            $cmd->setHeureCde($date->format('H:i:s'));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->flush();
 
@@ -85,5 +89,22 @@ class CommandeController extends AbstractController
         }
 
         return $this->render('commande/edit.html.twig', ['form' => $form->createView()]);
+    }
+
+    /**
+     * @Route("/commandereset", name="cmd_reset")
+     * @param EntityManagerInterface $em
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function resetcommande (EntityManagerInterface $em)
+    {
+        $repository = $em->getRepository(Commande::class);
+        $entities = $repository->findAll();
+
+        foreach ($entities as $entity) {
+            $em->remove($entity);
+        }
+        $em->flush();
+        return $this->redirectToRoute('commande');
     }
 }

@@ -4,9 +4,9 @@
 
 {% block body %}
     <a href="{{ path('new_jouet')}}" class="btn btn-primary" style="float:left"> ajouter</a>
-    <table class="table">
+    <table class="table table-striped">
         <thead>
-        <tr>
+        <tr scope="row">
             <th scope="col">id</th>
             <th scope="col">code_four_jouet_id</th>
             <th scope="col">code_jouet</th>
@@ -19,7 +19,7 @@
         </thead>
         <tbody>
         {% for jouet in jouets %}
-        <tr>
+        <tr scope="row">
             <td>{{ jouet.id }}</td>
             <td>{{ jouet.getCodeJouet() }}</td>
             <td>{{ jouet.getCodeFourJouet().id }}</td>

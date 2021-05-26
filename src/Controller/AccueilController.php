@@ -23,7 +23,7 @@ class AccueilController extends AbstractController
 
     public function index(): Response
     {
-        /*$this->ajouterFornisseur();
+       /* $this->ajouterFornisseur();
         $this->ajouterJouet();*/
       return  $this->render("home.html.twig");
     }
@@ -93,19 +93,6 @@ class AccueilController extends AbstractController
             ->setCodeFourJouet($four) ;
         $this->getDoctrine()->getManager()->persist($joue) ;
         $this->getDoctrine()->getManager()->flush() ;
-    }
- public function q1 (){
-     $four = $this->rep_Four->find(2);
-        $q1=$four->getJouets()->getValues();
-        dd($q1);
-
- }
-    public function q2 (){
-        $minprix= $this->for_jou->maxtoys();
-        $minprix2=$minprix->getQuery()->getResult();
-        dd($minprix2);
-
     }*/
-
 
 }

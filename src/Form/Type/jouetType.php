@@ -26,14 +26,20 @@ class jouetType extends AbstractType
 
                         ->orderBy('u.id', 'ASC'));
                 },
+                'attr' => array('class' => 'custom-select my-1 mr-sm-2'),
                 'choice_label' => 'id',
             ])
-            ->add('code_jouet', TextType::class)
-            ->add('des_jouet', TextType::class)
-            ->add('qte_stock_jouet', TextType::class)
-            ->add('pu_jouet', TextType::class)
+            ->add('code_jouet', TextType::class,
+                array('attr' => array('class' => 'form-control')))
+            ->add('des_jouet', TextType::class,
+                array('attr' => array('class' => 'form-control')))
+            ->add('qte_stock_jouet', TextType::class,
+                array('attr' => array('class' => 'form-control')))
+            ->add('pu_jouet', TextType::class,
+                array('attr' => array('class' => 'form-control')))
             ->add('save', SubmitType::class, array(
-                    'label' => 'Créer')
+                    'label' => 'Créer',
+                'attr' => array('class' => 'btn btn-primary'))
             )
         ;
     }

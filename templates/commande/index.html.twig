@@ -3,10 +3,11 @@
 {% block title %}jouet!{% endblock %}
 
 {% block body %}
-    <a href="{{ path('new_cmd')}}" class="btn btn-primary" style="float:left"> ajouter</a>
-    <table class="table">
+    <a href="{{ path('new_cmd')}}" class="btn btn-primary" > ajouter</a>
+    <a href="{{ path('cmd_reset')}}" class="btn btn-danger"> reset</a>
+    <table class="table table-striped">
         <thead>
-        <tr>
+        <tr scope ="row">
             <th scope="col">id</th>
             <th scope="col">numCde</th>
             <th scope="col">DateCde</th>
@@ -20,7 +21,7 @@
         </thead>
         <tbody>
         {% for cmd in cmds %}
-            <tr>
+            <tr scope ="row">
                 <td>{{ cmd.id }}</td>
                 <td>{{ cmd.getNumCde() }}</td>
                 <td>{{ cmd.getDateCde()|date("d/m/Y") }}</td>

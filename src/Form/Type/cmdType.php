@@ -27,26 +27,24 @@ class cmdType extends AbstractType
 
                         ->orderBy('u.id', 'ASC'));
                 },
+                'attr' => array('class' => 'custom-select my-1 mr-sm-2'),
                 'choice_label' => 'id',
-            ])
-            ->add('NumCde', TextType::class)
-            /*->add('DateCde', DateType::class, [
-                'widget' => 'choice',
 
-            ])*/
-            ->add('DateCde', 'date', array(
-            'format' => \IntlDateFormatter::SHORT,
-            'input' => 'datetime',
-            'widget' => 'single_text',
-            'data' => new \DateTime("now")))
-            ->add('HeureCde', TimeType::class, [
-                'input'  => 'datetime',
-                'widget' => 'choice',
+
             ])
-            ->add('RemiseCde', TextType::class)
-            ->add('MntCde', TextType::class)
+            ->add('NumCde', TextType::class
+                ,array('attr' => array('class' => 'form-control'))
+            )
+            ->add('RemiseCde', TextType::class
+                ,array('attr' => array('class' => 'form-control'))
+            )
+            ->add('MntCde', TextType::class
+                ,array('attr' => array('class' => 'form-control'))
+            )
             ->add('save', SubmitType::class, array(
-                    'label' => 'Créer')
+                    'label' => 'Créer',
+                'attr' => array('class' => 'btn btn-primary'))
+
             )
             
         ;
