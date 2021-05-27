@@ -29,7 +29,7 @@ class JouetsController extends AbstractController
 
     public function index(): Response
     {
-        /*$this->Requete();*/
+       $this->Requete3();
         $tabjouet = $this->for_jou->findAll();
         return $this->render('jouets/index.html.twig', [
             'jouets' => $tabjouet,
@@ -85,7 +85,7 @@ class JouetsController extends AbstractController
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
     public function edit(Request $request, $id) {
-        $jouet = new Jouet();
+        //$jouet = new Jouet();
         $jouet = $this->getDoctrine()->getRepository(Jouet::class)->find($id);
 
         $form = $this->createForm(jouetType::class,$jouet);
@@ -112,16 +112,18 @@ class JouetsController extends AbstractController
     }
     public function Requete2()
     {
-        $jouet = $this->getDoctrine()->getRepository(Jouet::class)->maxStockJouet();
-        foreach ($jouet as $value) {
-            echo  "jouet : " . $value->getDesJouet() . "<br>";
+        $jouets = $this->getDoctrine()->getRepository(Jouet::class)->maxPriceJouet();
+        foreach ($jouets as $key => $jouet) {
+            foreach ($jouet as  $value)
+            echo  "Le jouet num".($key+1)." : " . $value . "<br>";
         }
     }
     public function Requete3()
     {
-        $jouet = $this->getDoctrine()->getRepository(Jouet::class)->minPrice();
-        foreach ($jouet as $value) {
-            echo  "jouet : " . $value->getDesJouet() . "<br>";
+        $jouets = $this->getDoctrine()->getRepository(Jouet::class)->minPriceJouet();
+        foreach ($jouets as $key => $jouet) {
+            foreach ($jouet as  $value)
+                echo  "Le jouet num".($key+1)." : " . $value . "<br>";
         }
     }
     public function Requete4()

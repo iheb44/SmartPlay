@@ -114,15 +114,26 @@ class JouetRepository extends ServiceEntityRepository
 
     }*/
 
-    /**
-     * @return Jouet[] Returns a Jouet with max value stock
-     */
-    public function maxStockJouet()
+
+    public function maxPriceJouet()
     {
-        $this->createQueryBuilder()
-            ->select('MAX(e.id)')
-            ->from('YourBundle:Entity', 'e')
-            ->getQuery();
+        $query = $this->createQueryBuilder('j')
+            ->select('MAX(j.qte_stock_jouet)');
+        return $this->maxMinStockJouet((int)$query->getQuery()->getResult()[0][1]);
+    }
+    public function minPriceJouet()
+    {
+        $query = $this->createQueryBuilder('j')
+            ->select('MIN(j.qte_stock_jouet)');
+        return $this->maxMinStockJouet((int)$query->getQuery()->getResult()[0][1]);
+    }
+    public function maxMinStockJouet($price)
+    {
+        return $this->createQueryBuilder('j')
+            ->select('j.des_jouet')
+            ->where('j.qte_stock_jouet = :p')
+            ->setParameter('p', $price)
+            ->getQuery()->getResult();
     }
     /**
      * @return Jouet[] Returns a Jouet with min price
