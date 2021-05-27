@@ -32,6 +32,8 @@ class JouetsController extends AbstractController
         $this->Requete1();
         $this->Requete2();
        $this->Requete3();
+       $this->Requete4();
+       $this->Requete5();
         $tabjouet = $this->for_jou->findAll();
         return $this->render('jouets/index.html.twig', [
             'jouets' => $tabjouet,
@@ -115,7 +117,7 @@ class JouetsController extends AbstractController
     }
     public function Requete2()
     {
-        $jouets = $this->getDoctrine()->getRepository(Jouet::class)->maxPriceJouet();
+        $jouets = $this->getDoctrine()->getRepository(Jouet::class)->maxQteJouet(true);
         echo  "Ex2 : ". "<br>";
         foreach ($jouets as $key => $jouet) {
             foreach ($jouet as  $value)
@@ -124,7 +126,7 @@ class JouetsController extends AbstractController
     }
     public function Requete3()
     {
-        $jouets = $this->getDoctrine()->getRepository(Jouet::class)->minPriceJouet();
+        $jouets = $this->getDoctrine()->getRepository(Jouet::class)->minQteJouet();
         echo  "Ex3 : ". "<br>";
         foreach ($jouets as $key => $jouet) {
             foreach ($jouet as  $value)
@@ -133,17 +135,17 @@ class JouetsController extends AbstractController
     }
     public function Requete4()
     {
-        $four = $this->getDoctrine()->getRepository(Fournisseur::class)->getMostFourWithGames();
-        foreach ($four as  $value) {
-            echo "code Fournissuer : " . $value->getCodeFour() .  " Fournisseur Description  :" . $value->getDesFour() . "<br>";
+        $fours = $this->getDoctrine()->getRepository(Jouet::class)->maxQteJouet(false, true);
+        foreach ($fours as $key => $four) {
+                echo  "Le Four num".($key+1)." : " . $four['des_four'] . "<br>";
         }
     }
     public function Requete5()
     {
-        $four = $this->getDoctrine()->getRepository(Fournisseur::class)->getFourWithNoGame();
-        foreach ($four as  $value) {
-            echo "code Fournissuer : " . $value->getCodeFour() .  " Fournisseur Description  :" . $value->getDesFour() . "<br>";
-        }
+        $arr = $this->getDoctrine()->getRepository(Jouet::class)->allfour();
+        $arrFour = $this->getDoctrine()->getRepository(Fournisseur::class)->fourNoJouet($arr);
+        $res = array_diff(array_unique([$arr]), [$arrFour]);
+        dd($res);
     }
     public function Requete6()
     {

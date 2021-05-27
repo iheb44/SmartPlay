@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Fournisseur;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Fournisseur|null find($id, $lockMode = null, $lockVersion = null)
@@ -47,6 +48,14 @@ class FournisseurRepository extends ServiceEntityRepository
         ;
     }
     */
-
+    public function fourNoJouet($arr)
+    {
+        $qb = $this->createQueryBuilder('f');
+        $qb->select('f.code_four as four');
+        $arrs = implode(', ', array_map(function ($entry) {
+            return $entry['four'];
+        }, $qb->getQuery()->getResult()));
+        return $arrs;
+    }
 
 }

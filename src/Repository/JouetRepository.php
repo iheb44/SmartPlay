@@ -115,26 +115,55 @@ class JouetRepository extends ServiceEntityRepository
     }*/
 
 
-    public function maxPriceJouet()
+    public function maxQteJouet($req1 = false , $req4 = false)
     {
-        $query = $this->createQueryBuilder('j')
-            ->select('MAX(j.qte_stock_jouet)');
-        return $this->maxMinStockJouet((int)$query->getQuery()->getResult()[0][1]);
+        $query = $this->createQueryBuilder('j');
+        $query ->select('MAX(j.qte_stock_jouet)');
+        $qte = (int)$query->getQuery()->getResult()[0][1];
+        if ($req1){
+            return $this->maxMinStockJouet($qte);
+        }
+        if ($req4){
+            return $this->fourMaxStockJouet($qte);
+
+        }
     }
-    public function minPriceJouet()
+    public function minQteJouet()
     {
         $query = $this->createQueryBuilder('j')
             ->select('MIN(j.qte_stock_jouet)');
         return $this->maxMinStockJouet((int)$query->getQuery()->getResult()[0][1]);
     }
-    public function maxMinStockJouet($price)
+    public function maxMinStockJouet($qte)
     {
         return $this->createQueryBuilder('j')
             ->select('j.des_jouet')
             ->where('j.qte_stock_jouet = :p')
-            ->setParameter('p', $price)
+            ->setParameter('p', $qte)
             ->getQuery()->getResult();
     }
+
+    public function fourMaxStockJouet($qte)
+    {
+        return $this->createQueryBuilder('j')
+                ->select('j, f.des_four')
+                ->innerJoin('j.code_four_jouet', 'f', 'f.id = j.code_four_jouet')
+                ->having('j.qte_stock_jouet = :q')
+                ->setParameter('q', $qte)
+            ->getQuery()->getResult();
+    }
+
+    public function allfour()
+    {
+        $sub = $this->createQueryBuilder('j')
+            ->select('IDENTITY(j.code_four_jouet) as four');
+        $arr = implode(', ', array_map(function ($entry) {
+            return $entry['four'];
+        }, $sub->getQuery()->getResult()));
+
+        return $arr;
+    }
+
     /**
      * @return Jouet[] Returns a Jouet with min price
      */
