@@ -49,6 +49,7 @@ class JouetRepository extends ServiceEntityRepository
         ;
     }
     */
+    /*
     public function findByFour($code)
     {
         return $this->createQueryBuilder('j')
@@ -111,5 +112,69 @@ class JouetRepository extends ServiceEntityRepository
         $reqq = $rep1->createQuery('SELECT J FROM App\Entity\Jouet J WHERE J.code_four_jouet = :val')->setParameter('val',$val);
         return $reqq ->getResult();
 
+    }*/
+
+    /**
+     * @return Jouet[] Returns a Jouet with max value stock
+     */
+    public function maxStockJouet()
+    {
+        $this->createQueryBuilder()
+            ->select('MAX(e.id)')
+            ->from('YourBundle:Entity', 'e')
+            ->getQuery();
     }
+    /**
+     * @return Jouet[] Returns a Jouet with min price
+     */
+    public function minPrice()
+    {
+        return $this->getEntityManager()->createQuery(
+            "SELECT j FROM App\Entity\Jouet j 
+             WHERE j.PU_jouet = (SELECT MIN(t.PU_jouet) from App\Entity\Jouet t)       
+          "
+        )->getResult();
+    }
+    public function updatePrice($price) {
+        $queryGetFour = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select("f.code_four")
+            ->from("App\Entity\Fournisseur","f")
+            ->where("f.des_four = 'ImportSmart'")
+            ->getQuery()
+            ->getResult();
+        return $this->getEntityManager()
+            ->createQueryBuilder()
+            ->update("App\Entity\Jouet","j")
+            ->set("j.PU_jouet","j.PU_jouet + :price")
+            ->where("IDENTITY(j.code_four_jouet) = :query")
+            ->setParameter("price",$price)
+            ->setParameter("query",$queryGetFour)
+            ->getQuery()
+            ->getResult();
+    }
+    public function deleteFourAndGame() {
+        $queryGetFourId = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select("f.code_four")
+            ->from("App\Entity\Fournisseur","f")
+            ->where("f.des_four = 'EduGame'")
+            ->getQuery()
+            ->getResult();
+        $this->getEntityManager()
+            ->createQueryBuilder()
+            ->delete("App\Entity\Jouet","j")
+            ->where("IDENTITY(j.code_four_jouet) = :query")
+            ->setParameter("query",$queryGetFourId)
+            ->getQuery()
+            ->getResult();
+        $this->getEntityManager()
+            ->createQueryBuilder()
+            ->delete("App\Entity\Fournisseur","f")
+            ->where("f.code_four = :query")
+            ->setParameter("query",$queryGetFourId)
+            ->getQuery()
+            ->getResult();
+    }
+
 }

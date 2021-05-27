@@ -29,6 +29,7 @@ class JouetsController extends AbstractController
 
     public function index(): Response
     {
+        /*$this->Requete();*/
         $tabjouet = $this->for_jou->findAll();
         return $this->render('jouets/index.html.twig', [
             'jouets' => $tabjouet,
@@ -101,5 +102,57 @@ class JouetsController extends AbstractController
 
         return $this->render('jouets/editjouet.html.twig', ['form' => $form->createView()]);
     }
+
+     public function Requete1()
+    {
+        $jouets = $this->getDoctrine()->getRepository(Jouet::class)->findBy(array('code_four_jouet' => '2'));
+        foreach ($jouets as $value) {
+            echo  "jouet : " . $value->getDesJouet() . "<br>";
+        }
+    }
+    public function Requete2()
+    {
+        $jouet = $this->getDoctrine()->getRepository(Jouet::class)->maxStockJouet();
+        foreach ($jouet as $value) {
+            echo  "jouet : " . $value->getDesJouet() . "<br>";
+        }
+    }
+    public function Requete3()
+    {
+        $jouet = $this->getDoctrine()->getRepository(Jouet::class)->minPrice();
+        foreach ($jouet as $value) {
+            echo  "jouet : " . $value->getDesJouet() . "<br>";
+        }
+    }
+    public function Requete4()
+    {
+        $four = $this->getDoctrine()->getRepository(Fournisseur::class)->getMostFourWithGames();
+        foreach ($four as  $value) {
+            echo "code Fournissuer : " . $value->getCodeFour() .  " Fournisseur Description  :" . $value->getDesFour() . "<br>";
+        }
+    }
+    public function Requete5()
+    {
+        $four = $this->getDoctrine()->getRepository(Fournisseur::class)->getFourWithNoGame();
+        foreach ($four as  $value) {
+            echo "code Fournissuer : " . $value->getCodeFour() .  " Fournisseur Description  :" . $value->getDesFour() . "<br>";
+        }
+    }
+    public function Requete6()
+    {
+        $this->getDoctrine()->getRepository(Jouet::class)->updatePrice(10);
+        $jouet = $this->getDoctrine()->getRepository(Jouet::class)->findAll();
+        foreach ($jouet as $value) {
+            echo  "jouet Description : " . $value->getDesJouet() . " Price : " . $value->getPUJouet() ."<br>";
+        }
+    }
+    public function Requete7() {
+        $this->getDoctrine()->getRepository(Jouet::class)->deleteFourAndGame();
+        $jouet = $this->getDoctrine()->getRepository(Jouet::class)->findAll();
+        foreach ($jouet as $value) {
+            echo  "jouet Description : " . $value->getDesJouet() . " Price : " . $value->getPUJouet() ."<br>";
+        }
+    }
+
 
 }
