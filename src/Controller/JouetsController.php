@@ -29,6 +29,8 @@ class JouetsController extends AbstractController
 
     public function index(): Response
     {
+        $this->Requete1();
+        $this->Requete2();
        $this->Requete3();
         $tabjouet = $this->for_jou->findAll();
         return $this->render('jouets/index.html.twig', [
@@ -106,6 +108,7 @@ class JouetsController extends AbstractController
      public function Requete1()
     {
         $jouets = $this->getDoctrine()->getRepository(Jouet::class)->findBy(array('code_four_jouet' => '2'));
+        echo  "Ex1 : ". "<br>";
         foreach ($jouets as $value) {
             echo  "jouet : " . $value->getDesJouet() . "<br>";
         }
@@ -113,6 +116,7 @@ class JouetsController extends AbstractController
     public function Requete2()
     {
         $jouets = $this->getDoctrine()->getRepository(Jouet::class)->maxPriceJouet();
+        echo  "Ex2 : ". "<br>";
         foreach ($jouets as $key => $jouet) {
             foreach ($jouet as  $value)
             echo  "Le jouet num".($key+1)." : " . $value . "<br>";
@@ -121,6 +125,7 @@ class JouetsController extends AbstractController
     public function Requete3()
     {
         $jouets = $this->getDoctrine()->getRepository(Jouet::class)->minPriceJouet();
+        echo  "Ex3 : ". "<br>";
         foreach ($jouets as $key => $jouet) {
             foreach ($jouet as  $value)
                 echo  "Le jouet num".($key+1)." : " . $value . "<br>";
