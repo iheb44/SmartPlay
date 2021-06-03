@@ -94,5 +94,4 @@ class AccueilController extends AbstractController
         $this->getDoctrine()->getManager()->persist($joue) ;
         $this->getDoctrine()->getManager()->flush() ;
     }*/
-
 }

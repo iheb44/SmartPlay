@@ -126,7 +126,7 @@ class JouetsController extends AbstractController
     }
     public function Requete3()
     {
-        $jouets = $this->getDoctrine()->getRepository(Jouet::class)->minQteJouet();
+        $jouets = $this->getDoctrine()->getRepository(Jouet::class)->minPUJouet();
         echo  "Ex3 : ". "<br>";
         foreach ($jouets as $key => $jouet) {
             foreach ($jouet as  $value)
@@ -135,6 +135,7 @@ class JouetsController extends AbstractController
     }
     public function Requete4()
     {
+        echo  "Ex4 : ". "<br>";
         $fours = $this->getDoctrine()->getRepository(Jouet::class)->maxQteJouet(false, true);
         foreach ($fours as $key => $four) {
                 echo  "Le Four num".($key+1)." : " . $four['des_four'] . "<br>";
@@ -142,10 +143,16 @@ class JouetsController extends AbstractController
     }
     public function Requete5()
     {
-        $arr = $this->getDoctrine()->getRepository(Jouet::class)->allfour();
-        $arrFour = $this->getDoctrine()->getRepository(Fournisseur::class)->fourNoJouet($arr);
-        $res = array_diff(array_unique([$arr]), [$arrFour]);
-        dd($res);
+        echo  "Ex5 : ". "<br>";
+        $four = $this->getDoctrine()->getRepository(    Jouet::class)->allfour();
+        $allFour = $this->getDoctrine()->getRepository(Fournisseur::class)->fourNoJouet($four);
+        $fourarry = explode(',',$four);
+        $allFourarry = explode(',',$allFour);
+        $result=array_diff($allFourarry,array_unique($fourarry));
+        foreach ($result as $key => $four) {
+            echo  "Le Four num :".($key+1). "<br>";
+        }
+
     }
     public function Requete6()
     {

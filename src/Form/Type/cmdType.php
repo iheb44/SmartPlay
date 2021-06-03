@@ -43,27 +43,30 @@ class cmdType extends AbstractType
             ->add('RemiseCde', TextType::class
                 ,array('attr' => array('class' => 'form-control'))
             )
-            ->add('MntCde', TextType::class
+            /*->add('MntCde', TextType::class
                 ,array('attr' => array('class' => 'form-control'))
-            )
+            )*/
 
-            /********Not MApped******/
+
             ->add('ligneCdes', EntityType::class, [
                 'label' => 'Jouet',
                 'class'       => Jouet::class,
                 'placeholder' => 'Sélectionnez Un jouet',
                 'mapped'      => false,
-                'required'    => true
+                'required'    => true,
+                'attr' => array('class' => 'custom-select my-1 mr-sm-2')
             ])
             ->add('QteLigne', TextType::class,[
                 'label' => 'qte',
                 'mapped'      => false,
-                'required'    => true
+                'required'    => true,
+                'attr' => array('class' => 'custom-select my-1 mr-sm-2')
             ])
             ->add('remiseLigne', NumberType::class,[
                 'label' => 'Remise',
                 'mapped'      => false,
-                'required'    => true
+                'required'    => true,
+                'attr' => array('class' => 'custom-select my-1 mr-sm-2')
             ])
             ->add('save', SubmitType::class, array(
                     'label' => 'Créer',

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+{% block title %}Hello CommandeController!{% endblock %}
+{% block body %}
+<h1> ajouter une commande </h1>
+<form action="" method="post">
+    <div class="form-group">
+        <label for="num_cde">numero commande </label>
+        <input type="text" class="form-control" id="num_cde">
+    </div>
+    <div class="form-group">
+        <label for="code_cl_cde">code client </label>
+        <input type="text" class="form-control" id="code_cl_cde">
+    </div>
+
+    <div class="form-group">
+        <label for="remise_cde">remise commande </label>
+        <input type="text" class="form-control" id="remise_cde">
+    </div>
+    <div class="form-group">
+        <label for="code_joue">code jouet </label>
+        <input type="text" class="form-control" id="code_joue">
+    </div>
+    <div class="form-group">
+        <select class="form-control" id="supervisor">
+            {% for jouet in jouets %}
+
+            {% endfor %}
+    </div>
+    <button type="submit" class="btn btn-success">send</button>
+{% endblock %}

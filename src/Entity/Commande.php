@@ -56,6 +56,7 @@ class Commande
      */
     private $ligneCdes;
 
+
     public function __construct()
     {
         $this->ligneCdes = new ArrayCollection();
@@ -167,4 +168,6 @@ class Commande
 
         return $this;
     }
+
+
 }

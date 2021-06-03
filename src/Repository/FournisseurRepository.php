@@ -51,7 +51,7 @@ class FournisseurRepository extends ServiceEntityRepository
     public function fourNoJouet($arr)
     {
         $qb = $this->createQueryBuilder('f');
-        $qb->select('f.code_four as four');
+        return $qb->select('f.code_four as four');
         $arrs = implode(', ', array_map(function ($entry) {
             return $entry['four'];
         }, $qb->getQuery()->getResult()));

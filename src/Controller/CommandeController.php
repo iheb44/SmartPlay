@@ -36,6 +36,10 @@ class CommandeController extends AbstractController
     public function delete_commande($id)
     {
         $entityManager = $this->getDoctrine()->getManager();
+        $lignecl = $entityManager->getRepository(LigneCde::class)->findBy(['num_cde_ligne' =>$id]);
+        foreach ($lignecl as $key => $cmd) {
+            $entityManager->remove($cmd);
+        }
         $cmd = $entityManager->getRepository(Commande::class)->find($id);
         $entityManager->remove($cmd);
         $entityManager->flush();
@@ -56,16 +60,22 @@ class CommandeController extends AbstractController
         if($builder->isSubmitted() && $builder->isValid()) {
             $date = new \DateTime();
             $cmd = $builder->getData();
+            $jouet = new Jouet();
+            $repository = $this->getDoctrine()->getRepository(Jouet::class);
+
             //dd($cmd);
 
             $ligne_cmdFrom = $builder->get("ligneCdes")->getData();
             $qte_ligne_cmdFrom = $builder->get("QteLigne")->getData();
             $remiseLigneFrom = $builder->get("remiseLigne")->getData();
-
             $cmd->setDateCde($date->format('d-m-Y'));
             $cmd->setHeureCde($date->format('H:i:s'));
             $ligne_cmd->setNumCdeLigne($cmd);
             $ligne_cmd->setCodeJoueLigne($ligne_cmdFrom);
+            $jouet=$repository->findOneBy(['code_jouet' =>$ligne_cmdFrom] );
+            $p=$jouet->getPUJouet();
+            $total=($p-($p*$remiseLigneFrom)/100)*$qte_ligne_cmdFrom;
+            $cmd->setMntCde($total);
             $ligne_cmd->setQteLigne($qte_ligne_cmdFrom);
             $ligne_cmd->setRemiseLigne($remiseLigneFrom);
             $entityManager->persist($cmd);
@@ -76,32 +86,50 @@ class CommandeController extends AbstractController
         }
         return $this->render('commande/new.html.twig',['form' => $builder->createView()]);
     }
+
     /**
      * @Route("/commande/edit/{id}", name="edit_cmd")
      * @param Request $request
+     * @param EntityManagerInterface $entityManager
      * @param $id
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function edit(Request $request, $id) {
-        //$cmd = new Commande();
+    public function edit(Request $request, EntityManagerInterface $entityManager, $id) {
+        $ligne_cmd = new LigneCde();
         $cmd = $this->getDoctrine()->getRepository(Commande::class)->find($id);
+        $builder = $this->createForm(cmdType::class,$cmd);
 
-        $form = $this->createForm(cmdType::class,$cmd);
 
-
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()) {
+        $builder->handleRequest($request);
+        if($builder->isSubmitted() && $builder->isValid()) {
             $date = new \DateTime();
-            $cmd = $form->getData();
+            $cmd = $builder->getData();
+            $jouet = new Jouet();
+            $repository = $this->getDoctrine()->getRepository(Jouet::class);
+
+            //dd($cmd);
+
+            $ligne_cmdFrom = $builder->get("ligneCdes")->getData();
+            $qte_ligne_cmdFrom = $builder->get("QteLigne")->getData();
+            $remiseLigneFrom = $builder->get("remiseLigne")->getData();
             $cmd->setDateCde($date->format('d-m-Y'));
             $cmd->setHeureCde($date->format('H:i:s'));
-            $entityManager = $this->getDoctrine()->getManager();
+            $ligne_cmd->setNumCdeLigne($cmd);
+            $ligne_cmd->setCodeJoueLigne($ligne_cmdFrom);
+            $jouet=$repository->findOneBy(['code_jouet' =>$ligne_cmdFrom] );
+            $p=$jouet->getPUJouet();
+            $total=(($p*$remiseLigneFrom)/100)*$qte_ligne_cmdFrom;
+            $cmd->setMntCde($total);
+            $ligne_cmd->setQteLigne($qte_ligne_cmdFrom);
+            $ligne_cmd->setRemiseLigne($remiseLigneFrom);
+            $entityManager->persist($cmd);
+            $entityManager->persist($ligne_cmd);
             $entityManager->flush();
 
             return $this->redirectToRoute('commande');
         }
 
-        return $this->render('commande/edit.html.twig', ['form' => $form->createView()]);
+        return $this->render('commande/edit.html.twig', ['form' => $builder->createView()]);
     }
 
     /**
